@@ -5,7 +5,6 @@ export Starbox
 
 type Starbox{Tv<:Vector,Tstar}
     # given by user
-    newline_char::Char
     star::Tstar
     width::Int
     pad::Int
@@ -14,15 +13,15 @@ type Starbox{Tv<:Vector,Tstar}
     parts::Tv
     star_size::Int
 
-    function Starbox(msg::AbstractString, newline_char::Char, star::Tstar, width::Int, pad::Int)
-        parts = split(msg, newline_char)
-        new{Tv,Tstar}(newline_char, star, width, pad, parts, length(star))
+    function Starbox(msg::AbstractString, sep::Char, star::Tstar, width::Int, pad::Int)
+        parts = split(msg, sep)
+        new{Tv,Tstar}(star, width, pad, parts, length(star))
     end
 end
 
-function Starbox{T<:AbstractString,Tstar}(msg::T, newline_char::Char='/',
+function Starbox{T<:AbstractString,Tstar}(msg::T; sep::Char='/',
                                     star::Tstar='*', width::Int=79, pad::Int=0)
-    Starbox{Vector{SubString{T}},Tstar}(msg, newline_char, star, width, pad)
+    Starbox{Vector{SubString{T}},Tstar}(msg, sep, star, width, pad)
 end
 
 function padline(io::IO, n::Int)
