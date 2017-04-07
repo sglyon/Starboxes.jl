@@ -14,15 +14,11 @@ type Starbox{Tv<:Vector,Tstar}
     parts::Tv
     star_size::Int
 
-
     function Starbox(msg::AbstractString, newline_char::Char, star::Tstar, width::Int, pad::Int)
         parts = split(msg, newline_char)
         new{Tv,Tstar}(newline_char, star, width, pad, parts, length(star))
     end
 end
-
-# const CharStarbox{T} = Starbox{T,Char}
-typealias CharStarbox{T} Starbox{T,Char}
 
 function Starbox{T<:AbstractString,Tstar}(msg::T, newline_char::Char='/',
                                     star::Tstar='*', width::Int=79, pad::Int=0)
@@ -52,7 +48,7 @@ end
 function print_part(io::IO, sb::Starbox, i::Int)
     padline(io, sb.pad)
 
-    # add a star if we didn't last time
+    # add a leading star
     print(io, sb.star)
 
     # determine how much whitespace should go before
@@ -67,7 +63,7 @@ function print_part(io::IO, sb::Starbox, i::Int)
     skip2 = sb.width - skip1 - len - 2*sb.star_size
     padline(io, skip2)
 
-    # add trailing star if needed
+    # add trailing star
     print(io, sb.star_size > 1 ? reverse(sb.star) : sb.star)
 
     println(io)
@@ -82,7 +78,5 @@ function Base.show(io::IO, ::MIME"text/plain", sb::Starbox)
     print_border(io, sb)
     nothing
 end
-
-
 
 end # module
