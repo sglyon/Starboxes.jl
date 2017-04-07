@@ -1,4 +1,7 @@
+__precompile__()
 module Starboxes
+
+export Starbox
 
 type Starbox{Tv<:Vector,Tstar}
     # given by user
